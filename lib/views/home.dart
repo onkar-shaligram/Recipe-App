@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recipe_app/models/recipe.dart';
 import 'package:recipe_app/secrets.dart';
 import 'package:recipe_app/views/recipe_view.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,18 @@ class _HomeState extends State<Home> {
     var recipeData = await http.get("https://api.edamam.com/search?q=apple&app_id=$apiId&app_key=$apiKey");
 
     Map<String,dynamic> jsonData = jsonDecode(recipeData.body);
-
     print(jsonData);
+
+    jsonData["hits"].forEach((recipeInfo) {
+      Recipe recipe = Recipe();
+      recipe = Recipe.fromMap(recipeInfo["recipe"]);
+
+      recipes.add(recipe);
+     });
+
+     setState(() {
+       
+     });
 
   }
 
